@@ -1,19 +1,19 @@
 import React from "react";
-import notes from "../notes";
 
-const ti = notes.map((items) => {
-  return items;
-});
-// console.log(ti[0].title);
-function Note() {
-  return ti.map((items) => {
-    return (
-      <div className="note" key={items.key}>
-        <h1>{items.title}</h1>
-        <p>{items.content}</p>
-      </div>
-    );
-  });
+
+
+function Note(props) {
+  function handleClick() {
+    props.onDelete(props.id);
+  }
+
+  return (
+    <div className="note">
+      <h1>{props.title}</h1>
+      <p>{props.content}</p>
+      <button onClick={handleClick}>DELETE</button>
+    </div>
+  );
 }
-// console.log(notes);
+
 export default Note;
