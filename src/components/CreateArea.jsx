@@ -5,11 +5,11 @@ import { Zoom } from "@mui/material";
 
 function CreateArea(props) {
   const [isExpanded, setExpanded] = useState(false);
-
   const [note, setNote] = useState({
     title: "",
     content: "",
   });
+  const [showModal, setShowModal] = useState(false); // Modal visibility state
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -23,12 +23,22 @@ function CreateArea(props) {
   }
 
   function submitNote(event) {
+    event.preventDefault(); // Prevent page reload
+
+    // Validation: Check if title or content is empty
+    if (!note.title.trim() || !note.content.trim()) {
+      setShowModal(true); // Show modal if validation fails
+      return;
+    }
+
+    // Proceed with adding the note
     props.onAdd(note);
+
+    // Reset fields
     setNote({
       title: "",
       content: "",
     });
-    event.preventDefault();
   }
 
   function expand() {
@@ -57,10 +67,20 @@ function CreateArea(props) {
         />
         <Zoom in={isExpanded}>
           <Fab onClick={submitNote}>
-            <AddIcon className="flashing-icon"/>
+            <AddIcon className="flashing-icon" />
           </Fab>
         </Zoom>
       </form>
+
+      {/* Modal for validation */}
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modal">
+            <p>Both title and content are required!</p>
+            <button className="confirm" onClick={() => setShowModal(false)}>Ok</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
