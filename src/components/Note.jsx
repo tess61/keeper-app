@@ -3,7 +3,10 @@ import DeleteIcon from "@mui/icons-material/Delete";
 
 function Note(props) {
   function handleClick() {
-    props.onDelete(props.id);
+    const userConfirmed = window.confirm("Are you sure you want to delete this note?");
+    if (userConfirmed) {
+      props.onDelete(props.id); // Proceed with deletion if confirmed
+    }
   }
 
   return (
